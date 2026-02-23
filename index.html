@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mariuxi Micho | Marketing & Communications Strategist</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --cream: #F5F0E8;
+            --ink: #1A1510;
+            --gold: #C9A84C;
+            --warm-gray: #8C8075;
+        }
+
+        /* Lógica de Idiomas */
+        .lang-en .es { display: none; }
+        .lang-es .en { display: none; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--cream);
+            color: var(--ink);
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        /* Selector de Idioma */
+        .lang-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            margin-left: 10px;
+            color: var(--ink);
+            opacity: 0.4;
+            transition: 0.3s;
+        }
+
+        .lang-btn.active {
+            opacity: 1;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        /* Contenido Principal */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: 10px;
+            font-weight: 900;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--warm-gray);
+            margin-bottom: 30px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Botón de Portafolio (Canva/Drive) */
+        .btn-portfolio {
+            display: inline-block;
+            background-color: var(--ink);
+            color: white;
+            text-decoration: none;
+            padding: 18px 45px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--ink);
+            margin-bottom: 50px;
+        }
+
+        .btn-portfolio:hover {
+            background-color: transparent;
+            color: var(--ink);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Sección de Contacto */
+        .contact-section {
+            border-top: 1px solid rgba(26, 21, 16, 0.1);
+            padding-top: 30px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            text-decoration: none;
+            color: var(--ink);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .contact-link:hover {
+            color: var(--gold);
+        }
+
+        .dot { color: var(--gold); margin: 0 5px; }
+    </style>
+</head>
+<body class="lang-es"> <div class="lang-switcher">
+        <button onclick="setLang('es')" id="btn-es" class="lang-btn active">ES</button>
+        <button onclick="setLang('en')" id="btn-en" class="lang-btn">EN</button>
+    </div>
+
+    <header>
+        <h1>Mariuxi Micho</h1>
+        <p class="tagline es">Estratega de Marketing & Comunicación</p>
+        <p class="tagline en">Marketing & Communications Strategist</p>
+    </header>
+
+    <a href="https://www.canva.com/design/DAHBzT84Wno/lc0OFUV8zPMOOiut2hYMbg/view" target="_blank" class="btn-portfolio es">Ver Portafolio</a>
+    <a href="https://www.canva.com/design/DAG2c4MPOhY/nULS8NeHnr7RCJDayNCXFA/view" target="_blank" class="btn-portfolio en">View Portfolio</a>
+    <a href="https://www.canva.com/design/DAGxlqIxdEk/RcKJUjUtev_RszBeysLwkw/view" target="_blank" class="btn-portfolio en">View Portfolio</a>
+
+    <div class="contact-section">
+        <div class="contact-links">
+            <a href="https://www.linkedin.com/in/mariuximicho" target="_blank" class="contact-link">LinkedIn</a>
+            <span class="dot">•</span>
+            <a href="https://wa.me/19297817030" target="_blank" class="contact-link">WhatsApp</a>
+            <span class="dot">•</span>
+            <a href="mailto:mariuxi.micho@gmail.com" class="contact-link">Email</a>
+        </div>
+    </div>
+
+    <script>
+        function setLang(lang) {
+            // Cambia la clase del cuerpo
+            document.body.className = 'lang-' + lang;
+            
+            // Actualiza los botones del selector
+            document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        }
+    </script>
+</body>
+</html>
