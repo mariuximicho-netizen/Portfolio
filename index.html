@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -399,6 +399,16 @@
   .lang-es .en { display: none; }
   .lang-en .es { display: none; }
 
+  .btn-canva {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--rust); border: 1px solid var(--rust);
+    padding: 10px 18px; text-decoration: none;
+    transition: all 0.25s; border-radius: 2px;
+  }
+  .btn-canva:hover { background: var(--rust); color: var(--cream); }
+
   /* RESPONSIVE */
   @media (max-width: 860px) {
     nav { padding: 16px 20px; top: 33px; }
@@ -441,8 +451,8 @@
 
 <!-- LANG BAR -->
 <div class="lang-bar">
-  <button class="lang-btn active" onclick="setLang('es')">ES</button>
-  <button class="lang-btn" onclick="setLang('en')">EN</button>
+  <button class="lang-btn active" id="btn-es" onclick="setLang('es')">ES</button>
+  <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
 </div>
 
 <!-- NAV -->
@@ -453,6 +463,7 @@
     <li><a href="#mintel"><span class="es">Digital</span><span class="en">Digital</span></a></li>
     <li><a href="#automation"><span class="es">Casos</span><span class="en">Cases</span></a></li>
     <li><a href="#audit"><span class="es">Auditoría</span><span class="en">Audit</span></a></li>
+    <li><a href="#evidencias"><span class="es">Evidencias</span><span class="en">Evidence</span></a></li>
     <li><a href="#contact"><span class="es">Contacto</span><span class="en">Contact</span></a></li>
   </ul>
 </nav>
@@ -642,6 +653,11 @@
       <span class="case-tag">Customer Journey</span>
       <span class="case-tag">Medicare</span>
       <span class="case-tag">WhatsApp</span>
+      <div style="margin-top:20px;">
+        <a href="https://www.canva.com/design/DAG2c4MPOhY/xCdkuaIC-4M7qUFhEZqHRA/edit" target="_blank" class="btn-canva">
+          <span class="es">Ver proyecto →</span><span class="en">View project →</span>
+        </a>
+      </div>
     </div>
     <div class="case-card">
       <div class="case-number">02</div>
@@ -655,6 +671,11 @@
       <span class="case-tag">Ebook Lead Magnet</span>
       <span class="case-tag">WhatsApp Automation</span>
       <span class="case-tag">Funnel</span>
+      <div style="margin-top:20px;">
+        <a href="https://www.canva.com/design/DAHBzT84Wno/iVJsuSxM2nyxHJZPps7VCw/edit" target="_blank" class="btn-canva">
+          <span class="es">Ver proyecto →</span><span class="en">View project →</span>
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -673,6 +694,11 @@
       <li data-n="3"><span class="es">Análisis competitivo del nicho</span><span class="en">Competitive niche analysis</span></li>
       <li data-n="4"><span class="es">Roadmap de crecimiento con métricas claras</span><span class="en">Growth roadmap with clear metrics</span></li>
     </ul>
+    <div style="margin-top:28px;">
+      <a href="https://www.canva.com/design/DAGxlqIxdEk/Jb5VlS1KqM0MNW1-IKvyRQ/edit" target="_blank" class="btn-canva">
+        <span class="es">Ver auditoría →</span><span class="en">View audit →</span>
+      </a>
+    </div>
   </div>
   <div class="audit-right">
     <p class="es">Muchas marcas tienen el producto correcto pero una presencia digital que <strong>diluye su valor antes de que el cliente llegue</strong> a ver lo que ofrecen.</p>
@@ -777,6 +803,32 @@
   </div>
 </section>
 
+<!-- EVIDENCIAS -->
+<section id="evidencias" style="background: var(--cream); padding: 90px 60px; text-align:center;">
+  <div class="section-label" style="justify-content:center;">
+    <span class="es">06 — Documentos de Soporte</span>
+    <span class="en">06 — Supporting Documents</span>
+  </div>
+  <h2 style="font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3rem); margin:20px 0 16px; color:var(--ink);">
+    <span class="es">El trabajo que <em style="color:var(--rust);font-style:italic;">respalda</em> los números</span>
+    <span class="en">The work that <em style="color:var(--rust);font-style:italic;">backs</em> the numbers</span>
+  </h2>
+  <p style="max-width:560px; margin:0 auto 40px; color:var(--warm-gray); font-size:0.95rem; line-height:1.7;">
+    <span class="es">Capturas, reportes, presentaciones y materiales de cada proyecto. Evidencia real de cada resultado.</span>
+    <span class="en">Screenshots, reports, presentations and materials from each project. Real evidence of every result.</span>
+  </p>
+  <a href="https://drive.google.com/drive/folders/1oW0XtPYhGdb3N717e3yOFkwF0AUxQADN?usp=sharing" target="_blank" style="
+    display:inline-flex; align-items:center; gap:12px;
+    background:var(--ink); color:var(--cream);
+    font-family:'DM Mono',monospace; font-size:0.8rem;
+    letter-spacing:0.1em; text-transform:uppercase;
+    padding:18px 36px; text-decoration:none;
+    transition: background 0.25s; border-radius:2px;
+  " onmouseover="this.style.background='var(--rust)'" onmouseout="this.style.background='var(--ink)'">
+    📁 <span class="es">Ver carpeta de evidencias</span><span class="en">View evidence folder</span>
+  </a>
+</section>
+
 <!-- CONTACT -->
 <section class="contact-section" id="contact">
   <div class="contact-bg">CONNECT</div>
@@ -795,8 +847,8 @@
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function setLang(lang) {
   document.body.className = 'lang-' + lang;
-  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-  document.querySelector('.lang-btn[onclick="setLang(\'' + lang + '\')"]').classList.add('active');
+  document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
 }
 
 // Scroll animations
