@@ -446,13 +446,37 @@
   .delay-2 { animation-delay: 0.25s; }
   .delay-3 { animation-delay: 0.4s; }
 </style>
+
+<script>
+function setLang(lang) {
+  document.body.className = 'lang-' + lang;
+  var btnEs = document.getElementById('btn-es');
+  var btnEn = document.getElementById('btn-en');
+  if (btnEs) btnEs.className = 'lang-btn' + (lang === 'es' ? ' active' : '');
+  if (btnEn) btnEn.className = 'lang-btn' + (lang === 'en' ? ' active' : '');
+  var esEls = document.querySelectorAll('.es');
+  var enEls = document.querySelectorAll('.en');
+  for (var i = 0; i < esEls.length; i++) {
+    esEls[i].style.display = (lang === 'es') ? '' : 'none';
+  }
+  for (var j = 0; j < enEls.length; j++) {
+    enEls[j].style.display = (lang === 'en') ? '' : 'none';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('btn-es').addEventListener('click', function() { setLang('es'); });
+  document.getElementById('btn-en').addEventListener('click', function() { setLang('en'); });
+  setLang('es');
+});
+</script>
 </head>
 <body class="lang-es">
 
 <!-- LANG BAR -->
 <div class="lang-bar">
-  <button class="lang-btn active" id="btn-es" onclick="setLang('es')">ES</button>
-  <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+  <button class="lang-btn active" id="btn-es">ES</button>
+  <button class="lang-btn" id="btn-en">EN</button>
 </div>
 
 <!-- NAV -->
@@ -479,11 +503,7 @@
       <span class="en">I turn institutional complexity into <strong>real trust</strong> and digital presence into <strong>conversion systems</strong> for the Hispanic market.</span>
     </p>
     <div class="hero-cta fade-up delay-3">
-      <a href="/cdn-cgi/l/email-protection#036e62716a767b6a6e6a606b6c43646e626a6f2d606c6e" class="btn-primary">
-        <span class="es">Trabajemos juntos</span>
-        <span class="en">Let's work together</span>
-      </a>
-      <a href="#automation" class="btn-outline">
+      <a href="#automation" class="btn-primary">
         <span class="es">Ver portafolio</span>
         <span class="en">View portfolio</span>
       </a>
@@ -845,23 +865,6 @@
 </section>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-function setLang(lang) {
-  var body = document.body;
-  body.classList.remove('lang-es', 'lang-en');
-  body.classList.add('lang-' + lang);
-  document.getElementById('btn-es').classList.toggle('active', lang === 'es');
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-  try { localStorage.setItem('lang', lang); } catch(e) {}
-}
-
-// Restaurar idioma guardado
-(function() {
-  try {
-    var saved = localStorage.getItem('lang');
-    if (saved) setLang(saved);
-  } catch(e) {}
-})();
-
 // Scroll animations
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
