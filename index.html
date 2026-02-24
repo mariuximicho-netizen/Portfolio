@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -396,8 +396,8 @@
   }
 
   /* LANGUAGE SWITCHING */
-  .lang-es .en { display: none; }
-  .lang-en .es { display: none; }
+  .lang-es .en { display: none !important; }
+  .lang-en .es { display: none !important; }
 
   .btn-canva {
     display: inline-flex; align-items: center; gap: 8px;
@@ -411,9 +411,9 @@
 
   /* RESPONSIVE */
   @media (max-width: 860px) {
-    nav { padding: 16px 20px; top: 33px; }
-    .nav-links { gap: 14px; }
-    .nav-links a { font-size: 0.65rem; }
+    nav { padding: 16px 20px; top: 33px; flex-wrap: wrap; gap: 8px; }
+    .nav-links { gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .nav-links a { font-size: 0.6rem; }
     .lang-bar { padding: 8px 20px; }
     .hero { grid-template-columns: 1fr; padding-top: 100px; }
     .hero-left { padding: 50px 24px 30px; }
@@ -846,10 +846,21 @@
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function setLang(lang) {
-  document.body.className = 'lang-' + lang;
+  var body = document.body;
+  body.classList.remove('lang-es', 'lang-en');
+  body.classList.add('lang-' + lang);
   document.getElementById('btn-es').classList.toggle('active', lang === 'es');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  try { localStorage.setItem('lang', lang); } catch(e) {}
 }
+
+// Restaurar idioma guardado
+(function() {
+  try {
+    var saved = localStorage.getItem('lang');
+    if (saved) setLang(saved);
+  } catch(e) {}
+})();
 
 // Scroll animations
 const observer = new IntersectionObserver((entries) => {
