@@ -137,10 +137,10 @@
   h1 em { font-style: italic; color: var(--rust); }
   .hero-subtitle {
     font-size: 1rem; font-weight: 300;
-    color: var(--warm-gray); margin: 24px 0 36px;
+    color: var(--cream); margin: 24px 0 36px; opacity: 0.85;
     max-width: 400px; line-height: 1.9;
   }
-  .hero-subtitle strong { color: var(--ink); font-weight: 500; }
+  .hero-subtitle strong { color: var(--gold); font-weight: 500; }
   .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
   .btn-primary {
     background: var(--ink); color: var(--cream);
@@ -256,13 +256,15 @@
   .trending-text span { font-size: 0.82rem; opacity: 0.75; }
 
   /* MINTEL */
-  .mintel-section { padding: 90px 60px; }
+  .mintel-section { padding: 90px 60px; background: var(--ink); color: var(--cream); }
+  .mintel-section h2 { color: var(--cream); }
+  .mintel-section h2 em { color: var(--gold); }
   .mintel-grid {
     display: grid; grid-template-columns: 1fr 1.3fr;
     gap: 50px; margin-top: 50px; align-items: start;
   }
-  .mintel-story p { font-size: 0.92rem; color: var(--warm-gray); margin-bottom: 18px; line-height: 1.9; }
-  .mintel-story strong { color: var(--ink); font-weight: 600; }
+  .mintel-story p { font-size: 0.92rem; color: rgba(245,240,232,0.78); margin-bottom: 18px; line-height: 1.9; }
+  .mintel-story strong { color: var(--cream); font-weight: 600; }
   .achievement-row { margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
   .achievement {
     display: flex; align-items: flex-start; gap: 16px;
@@ -536,7 +538,7 @@ function setLang(lang) {
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('btn-es').addEventListener('click', function() { setLang('es'); });
   document.getElementById('btn-en').addEventListener('click', function() { setLang('en'); });
-  setLang('es');
+  setLang('en');
 });
 </script>
 </head>
@@ -545,8 +547,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- LANG BAR -->
 <div class="lang-bar">
-  <button class="lang-btn active" id="btn-es" aria-label="Ver en español" aria-pressed="true">ES</button>
-  <button class="lang-btn" id="btn-en" aria-label="View in English" aria-pressed="false">EN</button>
+  <button class="lang-btn" id="btn-es" aria-label="Ver en español" aria-pressed="false">ES</button>
+  <button class="lang-btn active" id="btn-en" aria-label="View in English" aria-pressed="true">EN</button>
 </div>
 
 <!-- NAV -->
@@ -935,3 +937,249 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasy
+
+<!-- ============================================
+     MARIUXI BOT — Smart Assistant (Static)
+     ============================================ -->
+<style>
+#mm-bot-launcher {
+  position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--gold); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 24px rgba(201,168,76,0.45);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+#mm-bot-launcher:hover { transform: scale(1.08); box-shadow: 0 6px 32px rgba(201,168,76,0.65); }
+#mm-bot-launcher svg { transition: transform 0.3s; }
+#mm-bot-launcher.open svg { transform: rotate(45deg); }
+
+#mm-bot-window {
+  position: fixed; bottom: 102px; right: 28px; z-index: 9998;
+  width: 360px; max-height: 520px;
+  background: var(--ink); border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 4px; display: flex; flex-direction: column;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.55);
+  transform: translateY(20px); opacity: 0; pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s;
+  font-family: 'DM Sans', sans-serif;
+}
+#mm-bot-window.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
+
+.mm-bot-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+.mm-bot-avatar {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 1rem;
+  color: var(--ink); font-weight: 700; flex-shrink: 0;
+}
+.mm-bot-title { flex: 1; }
+.mm-bot-title strong { display: block; font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--cream); }
+.mm-bot-title span { font-size: 0.7rem; font-family: 'DM Mono', monospace; color: var(--gold); letter-spacing: 0.08em; text-transform: uppercase; }
+.mm-bot-close { background: none; border: none; color: rgba(245,240,232,0.4); cursor: pointer; font-size: 1.2rem; padding: 4px; transition: color 0.2s; }
+.mm-bot-close:hover { color: var(--cream); }
+
+.mm-bot-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px; scrollbar-width: thin; scrollbar-color: rgba(201,168,76,0.3) transparent; }
+.mm-msg { max-width: 88%; line-height: 1.55; font-size: 0.87rem; animation: mmFadeIn 0.3s ease; }
+@keyframes mmFadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+.mm-msg.bot { align-self: flex-start; background: rgba(245,240,232,0.06); color: var(--cream); padding: 12px 16px; border-radius: 2px 12px 12px 12px; border-left: 2px solid var(--gold); }
+.mm-msg.user { align-self: flex-end; background: var(--gold); color: var(--ink); padding: 12px 16px; border-radius: 12px 12px 2px 12px; font-weight: 500; }
+
+.mm-typing { align-self: flex-start; display: flex; gap: 5px; padding: 12px 16px; background: rgba(245,240,232,0.06); border-left: 2px solid var(--gold); border-radius: 2px 12px 12px 12px; }
+.mm-typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); animation: mmBounce 1.2s infinite; }
+.mm-typing span:nth-child(2) { animation-delay: 0.2s; }
+.mm-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes mmBounce { 0%,60%,100% { transform:translateY(0); opacity:0.5; } 30% { transform:translateY(-6px); opacity:1; } }
+
+.mm-quick-replies { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 20px 14px; }
+.mm-quick-btn { background: transparent; border: 1px solid rgba(201,168,76,0.35); color: var(--gold); font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 7px 12px; border-radius: 2px; cursor: pointer; transition: background 0.2s, color 0.2s; }
+.mm-quick-btn:hover { background: var(--gold); color: var(--ink); }
+
+.mm-bot-input-row { display: flex; gap: 8px; padding: 14px 20px; border-top: 1px solid rgba(201,168,76,0.15); }
+#mm-bot-input { flex: 1; background: rgba(245,240,232,0.06); border: 1px solid rgba(201,168,76,0.2); border-radius: 2px; color: var(--cream); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; padding: 10px 14px; outline: none; transition: border-color 0.2s; }
+#mm-bot-input::placeholder { color: rgba(245,240,232,0.3); }
+#mm-bot-input:focus { border-color: var(--gold); }
+#mm-bot-send { background: var(--gold); border: none; border-radius: 2px; color: var(--ink); cursor: pointer; padding: 10px 14px; font-size: 1rem; transition: background 0.2s; }
+#mm-bot-send:hover { background: var(--cream); }
+
+@media (max-width: 480px) {
+  #mm-bot-window { width: calc(100vw - 32px); right: 16px; bottom: 90px; }
+  #mm-bot-launcher { right: 16px; bottom: 16px; }
+}
+</style>
+
+<button id="mm-bot-launcher" aria-label="Open assistant">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1510" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+</button>
+
+<div id="mm-bot-window" role="dialog" aria-label="Mariuxi's assistant">
+  <div class="mm-bot-header">
+    <div class="mm-bot-avatar">M</div>
+    <div class="mm-bot-title">
+      <strong>Mariuxi's Assistant</strong>
+      <span>● Available now</span>
+    </div>
+    <button class="mm-bot-close" id="mm-bot-close" aria-label="Close">✕</button>
+  </div>
+  <div class="mm-bot-messages" id="mm-bot-messages"></div>
+  <div class="mm-quick-replies" id="mm-quick-replies"></div>
+  <div class="mm-bot-input-row">
+    <input type="text" id="mm-bot-input" placeholder="Ask me anything..." autocomplete="off" maxlength="300" />
+    <button id="mm-bot-send" aria-label="Send">➤</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  // ── Knowledge Base ────────────────────────────────────────
+  const KB = [
+    {
+      keys: ['help', 'ayud', 'offer', 'ofrec', 'do for', 'hacer por', 'value', 'valor', 'bring', 'aportar', 'contribute', 'contribu'],
+      en: `Mariuxi brings three things most communicators can't offer together:\n\n1. Crisis-tested instincts — 8 years as official spokesperson during real national emergencies in Ecuador (earthquakes, floods, pandemic).\n\n2. Bilingual fluency — she communicates with equal precision in English and Spanish, a rare asset in New York's multicultural market.\n\n3. Zero-budget impact — she grew audiences and managed high-visibility campaigns with no paid media.`,
+      es: `Mariuxi ofrece tres cosas que pocos comunicadores pueden combinar:\n\n1. Experiencia real en crisis — 8 años como vocera oficial durante emergencias nacionales en Ecuador (sismos, inundaciones, pandemia).\n\n2. Bilingüe de alto nivel — comunica con igual precisión en inglés y español, una ventaja clave en el mercado multicultural de Nueva York.\n\n3. Impacto sin presupuesto publicitario — construyó audiencias y gestionó campañas de alta visibilidad con cero pauta pagada.`
+    },
+    {
+      keys: ['contact', 'contacto', 'reach', 'escribir', 'email', 'whatsapp', 'linkedin', 'hire', 'contratar', 'meet', 'reunión', 'interview', 'entrevista'],
+      en: `You can reach Mariuxi through any of these channels:\n\n✉️ mariuximicho@gmail.com\n💼 linkedin.com/in/mariuxi-micho\n💬 WhatsApp: +1 929-781-7030\n\nShe's open to corporate opportunities in New York and strategic freelance consulting for the Hispanic market. She responds within 24 hours.`,
+      es: `Puedes contactar a Mariuxi por cualquiera de estos canales:\n\n✉️ mariuximicho@gmail.com\n💼 linkedin.com/in/mariuxi-micho\n💬 WhatsApp: +1 929-781-7030\n\nEstá disponible para oportunidades corporativas en Nueva York y consultoría freelance para el mercado hispano. Responde en menos de 24 horas.`
+    },
+    {
+      keys: ['proposal', 'propuesta', 'plan', 'project', 'proyecto', 'consulting', 'consultor', 'strategy', 'estrategia', 'campaign', 'campaña', 'work together', 'trabajar juntos'],
+      en: `Mariuxi tailors every proposal to the client's needs, but here's what a typical engagement looks like:\n\n📋 Communications Audit — review of your current messaging, channels, and gaps.\n🎯 Crisis Readiness Plan — protocols, key messages, and spokesperson training.\n📣 Digital Strategy — content roadmap, audience growth, and bilingual execution.\n\nWant to start a conversation? Reach her at mariuximicho@gmail.com or WhatsApp +1 929-781-7030.`,
+      es: `Mariuxi adapta cada propuesta a las necesidades del cliente, pero así se ve un engagement típico:\n\n📋 Auditoría de Comunicaciones — revisión de mensajes actuales, canales y brechas.\n🎯 Plan de Gestión de Crisis — protocolos, mensajes clave y entrenamiento de portavoces.\n📣 Estrategia Digital — hoja de ruta de contenido, crecimiento de audiencia y ejecución bilingüe.\n\n¿Quieres iniciar una conversación? Escríbele a mariuximicho@gmail.com o WhatsApp +1 929-781-7030.`
+    },
+    {
+      keys: ['crisis', 'emergency', 'emergencia', 'ecu', '911', 'earthquake', 'sismo', 'pandemi', 'spokesperson', 'vocera', 'vocero'],
+      en: `During her 8 years at ECU 911 — Ecuador's National Emergency System — Mariuxi was the official public spokesperson during the country's most critical moments: earthquakes, landslides, wildfires, and the COVID-19 pandemic. She managed real-time communications where the margin for error was zero.`,
+      es: `Durante sus 8 años en ECU 911 — el Sistema Nacional de Emergencias del Ecuador — Mariuxi fue la vocera oficial del sistema durante los momentos más críticos del país: sismos, aluviones, incendios forestales y la pandemia de COVID-19. Gestionó comunicaciones en tiempo real donde el margen de error era cero.`
+    },
+    {
+      keys: ['experience', 'experiencia', 'years', 'años', 'background', 'trayectoria', 'career', 'carrera', 'cv', 'resume'],
+      en: `Mariuxi has 8+ years of high-stakes communications experience:\n\n• Official spokesperson, ECU 911 (2017–2025)\n• Crisis communications during national emergencies\n• Digital strategy and audience growth with zero paid media\n• Bilingual communications (English & Spanish)\n• Now based in New York, open to new opportunities`,
+      es: `Mariuxi tiene más de 8 años de experiencia en comunicaciones de alto impacto:\n\n• Vocera oficial, ECU 911 (2017–2025)\n• Comunicación de crisis durante emergencias nacionales\n• Estrategia digital y crecimiento de audiencias sin pauta pagada\n• Comunicaciones bilingüe (inglés y español)\n• Actualmente en Nueva York, abierta a nuevas oportunidades`
+    },
+    {
+      keys: ['digital', 'social', 'media', 'content', 'contenido', 'audience', 'audiencia', 'online', 'web', 'redes'],
+      en: `Mariuxi built and managed ECU 911's digital presence from the ground up — growing its audience significantly with zero paid media. She developed content strategies, managed social channels during high-pressure situations, and maintained consistent institutional voice across platforms.`,
+      es: `Mariuxi construyó y gestionó la presencia digital del ECU 911 desde cero — haciendo crecer la audiencia de forma significativa sin pauta pagada. Desarrolló estrategias de contenido, administró canales sociales en situaciones de alta presión y mantuvo una voz institucional consistente en todas las plataformas.`
+    }
+  ];
+
+  const FALLBACK_EN = `That's a great question! For detailed answers, I'd recommend reaching out to Mariuxi directly:\n\n✉️ mariuximicho@gmail.com\n💬 WhatsApp: +1 929-781-7030\n\nShe's happy to answer any questions personally.`;
+  const FALLBACK_ES = `¡Buena pregunta! Para respuestas detalladas, te recomiendo contactar a Mariuxi directamente:\n\n✉️ mariuximicho@gmail.com\n💬 WhatsApp: +1 929-781-7030\n\nElla responde con gusto de forma personal.`;
+
+  const WELCOME_EN = `Hi there! 👋 I'm Mariuxi's assistant. I'm here to help you learn about her work and how she can add value to your team.\n\nWhat would you like to know?`;
+  const WELCOME_ES = `¡Hola! 👋 Soy el asistente de Mariuxi. Estoy aquí para ayudarte a conocer su trayectoria y cómo puede aportar valor a tu equipo.\n\n¿Qué te gustaría saber?`;
+
+  const QUICK_EN = ['How can she help us?', 'Send a proposal', 'Contact her'];
+  const QUICK_ES = ['¿Cómo puede ayudarnos?', 'Enviar una propuesta', 'Contactarla'];
+
+  // ── Elements ─────────────────────────────────────────────
+  const launcher = document.getElementById('mm-bot-launcher');
+  const win = document.getElementById('mm-bot-window');
+  const closeBtn = document.getElementById('mm-bot-close');
+  const messages = document.getElementById('mm-bot-messages');
+  const input = document.getElementById('mm-bot-input');
+  const sendBtn = document.getElementById('mm-bot-send');
+  const quickReplies = document.getElementById('mm-quick-replies');
+
+  let isOpen = false;
+  let greeted = false;
+
+  function getLang() {
+    const el = document.getElementById('html-root');
+    return el ? el.lang : 'en';
+  }
+
+  // ── Toggle ────────────────────────────────────────────────
+  launcher.addEventListener('click', () => {
+    isOpen = !isOpen;
+    win.classList.toggle('visible', isOpen);
+    launcher.classList.toggle('open', isOpen);
+    if (isOpen && !greeted) {
+      greeted = true;
+      setTimeout(() => {
+        const lang = getLang();
+        showTypingThen(lang === 'es' ? WELCOME_ES : WELCOME_EN, 900, () => {
+          renderQuickReplies(lang === 'es' ? QUICK_ES : QUICK_EN);
+        });
+      }, 300);
+    }
+    if (isOpen) setTimeout(() => input.focus(), 350);
+  });
+
+  closeBtn.addEventListener('click', () => {
+    isOpen = false;
+    win.classList.remove('visible');
+    launcher.classList.remove('open');
+  });
+
+  // ── Messages ──────────────────────────────────────────────
+  function addMsg(text, type) {
+    const div = document.createElement('div');
+    div.className = 'mm-msg ' + type;
+    div.style.whiteSpace = 'pre-line';
+    div.textContent = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function showTypingThen(text, delay, cb) {
+    const dots = document.createElement('div');
+    dots.className = 'mm-typing';
+    dots.innerHTML = '<span></span><span></span><span></span>';
+    messages.appendChild(dots);
+    messages.scrollTop = messages.scrollHeight;
+    setTimeout(() => {
+      dots.remove();
+      addMsg(text, 'bot');
+      if (cb) cb();
+    }, delay);
+  }
+
+  function renderQuickReplies(replies) {
+    quickReplies.innerHTML = '';
+    replies.forEach(r => {
+      const btn = document.createElement('button');
+      btn.className = 'mm-quick-btn';
+      btn.textContent = r;
+      btn.addEventListener('click', () => {
+        quickReplies.innerHTML = '';
+        handleSend(r);
+      });
+      quickReplies.appendChild(btn);
+    });
+  }
+
+  // ── Match ─────────────────────────────────────────────────
+  function getResponse(text) {
+    const q = text.toLowerCase();
+    const lang = getLang();
+    for (const entry of KB) {
+      if (entry.keys.some(k => q.includes(k))) {
+        return lang === 'es' ? entry.es : entry.en;
+      }
+    }
+    return lang === 'es' ? FALLBACK_ES : FALLBACK_EN;
+  }
+
+  // ── Send ──────────────────────────────────────────────────
+  function handleSend(text) {
+    if (!text.trim()) return;
+    addMsg(text, 'user');
+    input.value = '';
+    const reply = getResponse(text);
+    showTypingThen(reply, 800);
+  }
+
+  sendBtn.addEventListener('click', () => { handleSend(input.value); });
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(input.value); }
+  });
+})();
+</script>
